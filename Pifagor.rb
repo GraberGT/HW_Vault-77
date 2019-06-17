@@ -1,3 +1,5 @@
+puts "Napishite znacheniya"
+
 a = (gets.chomp).to_i
 puts a
 
