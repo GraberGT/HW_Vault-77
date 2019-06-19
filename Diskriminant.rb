@@ -1,9 +1,12 @@
+puts "input a"
 a = gets.chomp.to_f
 puts a
 
+puts "input b"
 b = gets.chomp.to_f
 puts b
 
+puts "input c"
 c = gets.chomp.to_f
 puts c
 
@@ -31,3 +34,4 @@ else
 	puts "koren net"
 	
 end
+
