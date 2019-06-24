@@ -28,3 +28,4 @@ elsif
 	hypotenuse = k1 = k2
 puts "Ravnostoronniy" 
 	
+end
