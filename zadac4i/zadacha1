@@ -1,1 +1,9 @@
+words = ['ruby', 'is', 'awesome']
 
+def count_chars(words)
+ 
+ words.each { |word, lenght| puts "#{word} => #{word.length}"}
+
+end
+
+count_chars(words)
