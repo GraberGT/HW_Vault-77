@@ -5,3 +5,7 @@ a.sort_by do |sort|
 end
 
 puts a.sort.reverse
+
+
+#56268931274.to_s.split('')
+#[].sort.reverse
