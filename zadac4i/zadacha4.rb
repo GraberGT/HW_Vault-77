@@ -7,5 +7,5 @@ end
 puts a.sort.reverse
 
 
-#56268931274.to_s.split('')
-#[].sort.reverse
+#56268931274.to_s.split('').sort.reverse.join.to_i
+#[].sort.reverse.join.to_i
