@@ -1,26 +1,24 @@
 def ask(string)
 
-	puts "What do you want to know? Time, Date, Day, Remaining days, Remaining weeks."
-        a = gets.chomp.capitalize
 
 	puts "Incorrect Request" if string.class != a
 
     case a
 
 	when "Time" 
-	puts Time.now.strftime("%H:%M") if a == "Time"
+	puts Time.now.strftime("%H:%M") 
 
     	when "Date"
-    	puts Time.now.strftime("%d:%m:%y") if a == "Date"
+    	puts Time.now.strftime("%d:%m:%y") 
 		
 	when "Day"
-	puts Time.now.strftime("%A") if a == "Day"
+	puts Time.now.strftime("%A") 
 
 	when "Remaining days"
-        puts Time.now.strftime("%j") if a == "Remaining days"
+        puts Time.now.strftime("%j") 
 
 	when "Remaining weeks"
-	puts Time.now.strftime("%W") if a == "Remaining weeks"	
+	puts Time.now.strftime("%W") 	
         
         end
 
