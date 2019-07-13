@@ -1,7 +1,7 @@
 def ask(string)
 
 
-	puts "Incorrect Request" if string.class != a
+	puts "Incorrect Request" if string.class != string
 
     case a
 
