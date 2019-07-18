@@ -1,7 +1,7 @@
 class Array
-	def square
-	self.map { |n| n << 2 }
-	end
+    def square
+        self.map { |n| n << 2 }
+    end
 
     def average
     	self.each { |n| return 0 if n.class != String }
@@ -16,7 +16,6 @@ class Array
     	self.each { |n| puts n.reverse }
     	
     end
-
 
 end
 
