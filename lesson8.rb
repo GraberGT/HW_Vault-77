@@ -1,6 +1,6 @@
 class Array
 	def square
-		self.map { |n| n << 2 }
+	self.map { |n| n << 2 }
 	end
 
     def average
