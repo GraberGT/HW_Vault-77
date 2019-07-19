@@ -13,7 +13,7 @@ class Array
     end
 
     def reverse_strings
-    	self.each { |n| puts n.reverse }
+    	self.map { |n| puts n.reverse }
     	
     end
 
