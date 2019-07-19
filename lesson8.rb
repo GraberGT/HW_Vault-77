@@ -4,7 +4,7 @@ class Array
     end
 
     def average
-    	self.each { |n| return 0 if n.class != String }
+    	self.each { |n| return 0 if n.class != Integer }
     	self.sum / self.size
     end
 
