@@ -9,7 +9,7 @@ class Array
     end
 
     def even_odd
-    	self.partition { |n| i[0].zero? }
+    	self.partition { |n| n[0].zero? }
     end
 
     def reverse_strings
