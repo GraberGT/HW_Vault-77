@@ -21,8 +21,6 @@ def vendor(code, price, items)
    		end
   	end
 
-  	return items
-
 end
 
 
