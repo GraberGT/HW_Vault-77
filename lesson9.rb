@@ -1,27 +1,29 @@
 def vendor(code, price, items)
     items.each do |n|
 
-    	case n
-  			when if n[:code] == code && n[:quantity] == 0
-    			puts "#{n[:name]}, end"
-  			elsif
-     			n[:code] == code && n[:price] == price
-     			total = n[:quantity]
-     			n[:quantity] = total - 1
-    			puts n[:name]
-  			end
+  	if n[:code] == code && n[:quantity] == 0
+    	puts "#{n[:name]}, end"
+  	
+  	elsif
+     	n[:code] == code && n[:price] == price
+     	total = n[:quantity]
+     	n[:quantity] = total - 1
+    	puts n[:name]
 
-			when if n[:code] == code && n[:price] < price
-    			puts "#{n[:name]}, cashback = #{price - n[:price]}"
-			end
-			when if n[:code] == code && n[:price] > price
-    			puts "add more #{price - n[:price]}"
-			end
+	elsif n[:code] == code && n[:price] < price
+    	puts "#{n[:name]}, cashback = #{price - n[:price]}"
+	
+	elsif n[:code] == code && n[:price] > price
+    	puts "add more #{price - n[:price]}"
+	
+	end
 
-   		end
-  	end
+	end
+
+  	return items
 
 end
+
 
 
 
