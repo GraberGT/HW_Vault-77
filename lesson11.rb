@@ -1,19 +1,22 @@
 class Station
-	def initialize
-		@start_station = ala
-		@stop_station = asa
+     	@@Station = ala
+	def initialize(from, to)
+		@from = from
+		@to = to
 	end
 end
 
-class Route < Station
-	def initialize(start, stop)
-		@start_station
-		@stop_station
-	end
+station = Station.new('ala', 'asa')
 
+class Route < Station
+	def initialize(from, to)
+		@from
+		@to                                                                                                                          
+	end
+ 
 	def currentstation
-		@start_station
-		@stop_station
+		@from
+		@to
 	end
 
 end
@@ -21,7 +24,7 @@ end
 class Train 
 	def initialize
 		@number = rand(1..100).to_i               
-		@typetrain = pass || gruz                        
+		@typetrain = pass || gruz                                                                                      
 		@speed = 0                                                              
 		@wagon = 0
 	end
@@ -37,6 +40,17 @@ class Train
 	def usebrake
 		@speed = 0
 	end
+
+	def wagonquantity
+		@wagon
+	end
+
+	def addorremovewagon
+		@wagon + 1 || @wagon - 1  if @speed = 0
+	end
+	end
+
+end
 
 	def wagonquantity
 		@wagon
