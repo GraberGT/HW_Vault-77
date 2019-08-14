@@ -1,64 +1,55 @@
 class Station
-     	@@Station = ala
-	def initialize(from, to)
-		@from = from
-		@to = to
+	def initialize(name)
+		@name = name
 	end
 end
 
-station = Station.new('ala', 'asa')
+station1 = Station.new('Almaty')
+station2 = Station.new('Astana')
 
-class Route < Station
+class Route 
 	def initialize(from, to)
-		@from
-		@to                                                                                                                          
+		@from = from
+		@to = to 
+		@stations = [@from, @to]                                                                                                                      
 	end
  
-	def currentstation
-		@from
-		@to
+	def stations
+		@stations
 	end
 
 end
 
 class Train 
-	def initialize
-		@number = rand(1..100).to_i               
-		@typetrain = pass || gruz                                                                                      
+	def initialize(number, type)
+		@number =  number             
+		@type_train = type                                                                                    
 		@speed = 0                                                              
-		@wagon = 0
+		@wagons_amout = 0
 	end
 
-	def gospeed
-		@speed = 10
+	def go_speed
+		@speed += 10
 	end
 
-	def currentspeed
+	def current_speed
 		@speed
 	end
 
-	def usebrake
+	def stop
 		@speed = 0
 	end
 
-	def wagonquantity
-		@wagon
+	def wagons_amount
+		@wagons_amount
 	end
 
-	def addorremovewagon
-		@wagon + 1 || @wagon - 1  if @speed = 0
-	end
-	end
-
-end
-
-	def wagonquantity
-		@wagon
+	def add_wagon
+		@wagons_amount += 1 if @speed == 0
 	end
 
-	def addorremovewagon
-		@wagon + 1 || @wagon - 1  if @speed = 0
-	end
+	def delete_wagon
+		@wagons_amount -= 1 if @speed == 0
 	end
 
 end
