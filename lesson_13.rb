@@ -7,7 +7,7 @@ class Station
     @trains = []
   end
 
-  def accept_train(train)
+  def join_train(train)
     @trains << train
   end
 
@@ -65,12 +65,12 @@ class Train
   def station_route(route)
     @route = route
     @current_station = @route.stations.first
-    @current_station.accept_train(self)
+    @current_station.join_train(self)
   end
 
   def add_wagon(wagon)
     return "Error" if wagon.type != @type
-    @amount_wagon << wagon
+    @quantity_wagon << wagon
   end
 
   def current_station
@@ -103,6 +103,6 @@ class Train
     return unless @current_station && @route
     @current_station.send_train(self)
     @current_station = station
-    @current_station.accept_train(self)
+    @current_station.join_train(self)
   end
 
