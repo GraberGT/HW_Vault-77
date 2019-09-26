@@ -16,7 +16,7 @@ class App
   def start
     loop do
       choice = choice_interface
-    break if choice == '0'
+    break if choice == 0
       process_choice(choice)
     end
   end
