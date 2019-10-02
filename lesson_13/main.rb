@@ -21,7 +21,7 @@ class App
     end
   end
 
-  def choise_interface
+  def choice_interface
     puts "1. Enter Station"
     puts "2. Enter Passanger Train"
     puts "3. Enter Cargo Train"
