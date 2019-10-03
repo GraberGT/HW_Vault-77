@@ -75,14 +75,6 @@ class App
     @stations << name
   end
 
-  def create_station
-    puts "Enter station name"
-    name = gets.chomp
-   
-    station = Station.new(name)
-    @stations << station
-  end
-
   def stations
     @stations
   end
