@@ -63,7 +63,7 @@ class App
     when 11
      go_back
     when 12
-     list_stations(route = nil,@message)
+     list_stations(@message)
     when 13
      station_trains
     end
@@ -169,7 +169,7 @@ class App
     @train.move_back
   end
 
-  def list_stations(route = nil,message)
+  def list_stations(message)
     return puts "You need create stations"  if @stations.empty?
     @message = "List stations"
     puts message
