@@ -16,7 +16,7 @@ sum = kat1 + kat2
 right = hypotenuse **2 == kat1 **2 + kat2 **2
 
 if right
-  puts "This triangle is righ angled"
+  puts "This triangle is right angled"
 elsif hypotenuse && kat1 == kat2
   puts "This is right angled triangle and equilaterial"
 elsif (sum == hypotenuse) && (kat1 == kat2 || kat1 == hypotenuse || hypotenuse == kat2)
