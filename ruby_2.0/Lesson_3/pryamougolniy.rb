@@ -8,18 +8,18 @@ puts "Enter third side"
 c = gets.chomp.to_i
 
 array = [a,b,c]
-hypotenuse = array.sort![2]
-kat1 = array[0]
-kat2 = array[1]
-sum = kat1 + kat2
+hyp = array.sort![2]
+k1 = array[0]
+k2 = array[1]
+sum = k1 + k2
 
-right = hypotenuse **2 == kat1 **2 + kat2 **2
+right = hyp **2 == k1 **2 + k2 **2
 
 if right
   puts "This triangle is right angled"
-elsif hypotenuse && kat1 == kat2
+elsif hyp && k1 == k2
   puts "This is right angled triangle and equilaterial"
-elsif (sum == hypotenuse) && (kat1 == kat2 || kat1 == hypotenuse || hypotenuse == kat2)
+elsif (sum == hyp) && (k1 == k2 || k1 == hyp || hyp == k2)
   puts "This is triangle with equal sides but not right angled"
 else
   puts "This is regular triangle"
