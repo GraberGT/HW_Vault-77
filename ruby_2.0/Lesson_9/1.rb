@@ -1,4 +1,4 @@
-def vendor(code, price, quantity)
+def vendor(code, price, items)
   items.each do |n|
 
     if n[:code] == code && [:quantity] == 0
@@ -16,6 +16,11 @@ def vendor(code, price, quantity)
       puts "add more #{price - n[:price]}"
       
     end
+
+  end
+
+return items
+
 end
 
 
@@ -23,11 +28,12 @@ end
 
 items = [{:name=>"Snickers", :code=>"A01", :quantity=>10, :price=>250},
 
-  {:name=>"Pepsi", :code=>"A02", :quantity=>5, :price=>350},
+   {:name=>"Pepsi", :code=>"A02", :quantity=>5, :price=>350},
 
-  {:name=>"Orange Juice", :code=>"A03", :quantity=>10, :price=>400},
+   {:name=>"Orange Juice", :code=>"A03", :quantity=>10, :price=>400},
 
-  {:name=>"Bon Aqua", :code=>"A04", :quantity=>7, :price=>120}, 
+   {:name=>"Bon Aqua", :code=>"A04", :quantity=>7, :price=>120}, 
 
-  {:name=>"Bounty", :code=>"A05", :quantity=>10, :price=>270}]
+   {:name=>"Bounty", :code=>"A05", :quantity=>10, :price=>270}]
 
+vendor("A03", 555, items)
