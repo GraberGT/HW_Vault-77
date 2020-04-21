@@ -4,9 +4,19 @@ def vendor(code, price, quantity)
     if n[:code] == code && [:quantity] == 0
       puts "#{n[:name]}, end"
 
-    elsif
+    elsif n[:code] == code && n[:price] == price
+      total = n[:quantity]
+      n[:quantity] = total - 1
+      puts n[:name]
 
+    elsif n[:code] == code && n[:price] < price
+    	puts "#{n[:name]}, cashback = #{price - n[:price]}"
+
+    elsif n[:code] == code && n[:price] > price
+      puts "add more #{price - n[:price]}"
+      
     end
+end
 
 
 
