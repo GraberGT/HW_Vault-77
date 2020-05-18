@@ -4,9 +4,6 @@ class Station
   end
 end
 
-station_1 = Station.new('Ala')
-station_2 = Station.new('Ast')
-
 class Route
   def initialize(from, to)
     @from = from
