@@ -61,6 +61,7 @@ class Train
   def current_station
     @current_st
   end
+  
   def next_station
     @route.stations[current_st_index + 1]
   end
