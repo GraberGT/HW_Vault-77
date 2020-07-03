@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'station'
 
 class Route
@@ -14,7 +16,8 @@ class Route
   end
 
   def delete_station(station)
-    return "Error" if station == @stations.first || @stations.last
+    return 'Error' if station == @stations.first || @stations.last
+
     @stations.delete(station)
   end
 end

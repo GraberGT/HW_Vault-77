@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'station'
 
 class Route
@@ -13,7 +15,7 @@ class Route
     @first_s = first_station
     @second_s = second_station
     @stations = [@first_s, @second_s]
-    @@routes[self] = self.stations
+    @@routes[self] = stations
   end
 
   def add_station(station)
@@ -21,7 +23,8 @@ class Route
   end
 
   def delete_station(station)
-    return "Error" if station == @stations.first || @stations.last
+    return 'Error' if station == @stations.first || @stations.last
+
     @stations.delete(station)
   end
 end

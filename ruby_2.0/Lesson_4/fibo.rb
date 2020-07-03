@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 a = [0, 1]
 
 while (c = a[-2] + a[-1]) < 100
-   
-	a << c
+
+  a << c
 
 end
 

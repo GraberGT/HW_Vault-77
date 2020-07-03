@@ -1,9 +1,11 @@
-puts "Napishite znacheniya"
+# frozen_string_literal: true
 
-a = (gets.chomp).to_i
+puts 'Napishite znacheniya'
+
+a = gets.chomp.to_i
 puts a
 
-h = (gets.chomp).to_i
+h = gets.chomp.to_i
 puts h
 
 square = 0.5 * a * h

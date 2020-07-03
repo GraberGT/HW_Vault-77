@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def score_throws(radiuses)
   return 0 if radiuses.empty?
 
@@ -11,10 +13,9 @@ def score_throws(radiuses)
   end
 
   score = arr.sum
-  score += 100 if radiuses.all? { |i| i < 5}
+  score += 100 if radiuses.all? { |i| i < 5 }
 
   puts "score: #{score}"
-  
 end
 
 score_throws([1, 2, 3, 6, 7, 9, 11, 13])

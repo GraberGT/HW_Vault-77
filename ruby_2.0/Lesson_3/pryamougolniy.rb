@@ -1,29 +1,28 @@
-puts "Enter first side"
+# frozen_string_literal: true
+
+puts 'Enter first side'
 a = gets.chomp.to_i
 
-puts "Enter second side"
+puts 'Enter second side'
 b = gets.chomp.to_i
 
-puts "Enter third side"
+puts 'Enter third side'
 c = gets.chomp.to_i
 
-array = [a,b,c]
+array = [a, b, c]
 hyp = array.sort![2]
 k1 = array[0]
 k2 = array[1]
 sum = k1 + k2
 
-right = hyp **2 == k1 **2 + k2 **2
+right = hyp**2 == k1**2 + k2**2
 
 if right
-  puts "This triangle is right angled"
+  puts 'This triangle is right angled'
 elsif hyp && k1 == k2
-  puts "This is right angled triangle and equilaterial"
+  puts 'This is right angled triangle and equilaterial'
 elsif (sum == hyp) && (k1 == k2 || k1 == hyp || hyp == k2)
-  puts "This is triangle with equal sides but not right angled"
+  puts 'This is triangle with equal sides but not right angled'
 else
-  puts "This is regular triangle"
+  puts 'This is regular triangle'
 end
-
-
-

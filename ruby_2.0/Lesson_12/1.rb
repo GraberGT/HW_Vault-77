@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Station
   attr_reader :name
   attr_reader :trains
@@ -12,7 +14,7 @@ class Station
   end
 
   def trains_type(type)
-    @trains.select{|train| train.type == type}
+    @trains.select { |train| train.type == type }
   end
 
   def send_train(train)
@@ -20,7 +22,7 @@ class Station
   end
 end
 
-class Route 
+class Route
   attr_reader :stations
 
   def initialize(first_station, second_station)
@@ -30,17 +32,19 @@ class Route
   end
 
   def add_station(station)
-    return "Error" if station == @station.first || @station.last
+    return 'Error' if station == @station.first || @station.last
+
     @stations.insert(-2, station)
   end
 
   def delete_station(station)
-    return "Error" if station == @station.first || @station.last
+    return 'Error' if station == @station.first || @station.last
+
     @stations.delete(station)
   end
 end
 
-class Train 
+class Train
   attr_reader :number, :type
 
   def initialize(number, type)
@@ -61,7 +65,7 @@ class Train
   def current_station
     @current_st
   end
-  
+
   def next_station
     @route.stations[current_st_index + 1]
   end
@@ -80,10 +84,10 @@ class Train
 
   def move(station)
     return unless @current_st && @route
+
     return current_station == @route.stations.first
     station.sent_train(self)
     station.accept_train(self)
     @current_st = station
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'train'
 require_relative 'station'
 require_relative 'cargo_Wagon'
@@ -11,12 +13,14 @@ class CargoTrain < Train
   end
 
   def add_wagon(wagon)
-    return "Error" if wagon.class != CargoWagon
+    return 'Error' if wagon.class != CargoWagon
+
     @amount_wagon << wagon
   end
 
   def delete_wagon(wagon)
-    return "Error" if wagon.class != CargoWagon
+    return 'Error' if wagon.class != CargoWagon
+
     @wagons_amount.delete(wagon)
   end
 end

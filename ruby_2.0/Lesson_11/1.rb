@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Station
   def initialize(name)
     @name = name
@@ -11,9 +13,7 @@ class Route
     @stations = [@from, @to]
   end
 
-  def stations
-    @stations
-  end
+  attr_reader :stations
 end
 
 class Train
@@ -28,17 +28,13 @@ class Train
     @speed += 10
   end
 
-  def speed
-    @speed
-  end
+  attr_reader :speed
 
   def stop_train
     @speed = 0
   end
 
-  def wagons_amount
-    @wagons_amount
-  end
+  attr_reader :wagons_amount
 
   def add_wagon
     @wagons_amount += 1 if @speed == 0
