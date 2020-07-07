@@ -9,7 +9,7 @@ module Validator
   end
 
   def validate_type_train
-    raise "Invalid type" unless type cargo_train.empty?|| passenger_train.empty?
+    raise "Invalid type" unless :type cargo_train.empty?|| :passenger_train.empty?
   end
 
   def validate_volume
