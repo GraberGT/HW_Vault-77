@@ -1,19 +1,28 @@
-# frozen_string_literal: true
-
 module Validator
-  def validate_number
-    raise 'Invalid number' unless number.length == 10
+
+  def validate?
+    self.validate!
+  rescue
+    false
   end
 
-  def validate_name
-    raise 'Invalide name' unless name.String
+  protected
+
+  FIXNUM = /^[a-z\d]{3}-?[a-z\d]{2}$/i
+  NAME = /^[A-Z]{1}[a-z]+$/
+
+  def validate!
+
+    if self.class == Train
+      raise 'Type cargo or passanger' unless [:cargo_train, :passanger_train].include? type
+      raise 'Invalid number' if number !~ FIXNUM
+    elsif self.class == Station
+      raise "Invalid name station" if name !~ NAME
+    elsif self.class == Route
+      raise "Route consist of stations" unless (stations[0].is_a?(Station) && stations[-1].is_a?(Station))
+    else
+      true
+    end
   end
 
-  def validate_type_train
-    raise 'Invalid type' unless type cargo_train.empty? || passenger_train.empty?
-  end
-
-  def validate_volume
-    raise 'Invalid volume' unless volume.max >= 10
-  end
 end
