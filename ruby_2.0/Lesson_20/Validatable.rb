@@ -8,14 +8,14 @@ module Validator
 
   protected
 
-  FIXNUM = /^[a-z\d]{3}-?[a-z\d]{2}$/i
+  NUM = /^[a-z\d]{3}-?[a-z\d]{2}$/i
   NAME = /^[A-Z]{1}[a-z]+$/
 
   def validate!
 
     if self.class == Train
       raise 'Type cargo or passanger' unless [:cargo_train, :passanger_train].include? type
-      raise 'Invalid number' if number !~ FIXNUM
+      raise 'Invalid number' if number !~ NUM
     elsif self.class == Station
       raise "Invalid name station" if name !~ NAME
     elsif self.class == Route
