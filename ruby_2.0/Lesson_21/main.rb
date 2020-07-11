@@ -4,6 +4,8 @@ require_relative 'passanger_train'
 require_relative 'cargo_train'
 require_relative 'passanger_wagon'
 require_relative 'cargo_wagon'
+require_relative 'Validatable'
+require_relative 'InstanceCounter'
 
 class App
   def initialize
