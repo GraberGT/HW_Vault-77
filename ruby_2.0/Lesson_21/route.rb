@@ -1,30 +1,33 @@
 # frozen_string_literal: true
 
-require_relative 'station'
-
 class Route
-  attr_reader :stations
+  include InstanceCounter
+  include Valid
 
-  @@routes = {}
+  attr_reader :start_station, :end_station, :stations
 
-  def self.all
-    @@routes
-  end
-
-  def initialize(first_station, second_station)
-    @first_s = first_station
-    @second_s = second_station
-    @stations = [@first_s, @second_s]
-    @@routes[self] = stations
+  def initialize(start_station, end_station)
+    @stations = []
+    @start_station = start_station
+    @end_station = end_station
+    @stations << @start_station << @end_station
+    register_instance
+    validate!
   end
 
   def add_station(station)
     @stations.insert(-2, station)
   end
 
-  def delete_station(station)
-    return 'Error' if station == @stations.first || @stations.last
+  def remove_station(station)
+    @stations.delete(station) if station != (@start_station || @end_station)
+  end
 
-    @stations.delete(station)
+  private
+
+  def validate!
+    raise 'Начальная станция не может быть конечной' if @start_station == @end_station
+
+    true
   end
 end

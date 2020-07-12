@@ -1,33 +1,50 @@
 # frozen_string_literal: true
 
-require_relative 'passanger_train'
-require_relative 'cargo_train'
-
 class Station
-  attr_reader :name
-  attr_reader :trains
+  include InstanceCounter
+  include Valid
 
-  @@stations
+  attr_reader :name, :trains
+
+  @stations = []
+
+  class << self
+    attr_reader :stations
+
+    def all
+      @stations
+    end
+  end
 
   def initialize(name)
     @name = name
+    validate!
     @trains = []
-    @@stations << self
+    self.class.stations << self
+    register_instance
   end
 
-  def self.stations
-    @@stations
+  def all_trains
+    @trains.each { |train| yield train }
   end
 
-  def join_train(train)
+  def take_train(train)
     @trains << train
   end
 
   def trains_type(type)
-    @trains.select { |train| train.type == type }
+    @trains.select { |train| train.type_of if train.type_of == type }
   end
 
   def send_train(train)
     @trains.delete(train)
+  end
+
+  private
+
+  def validate!
+    raise 'Имя не может быть пустым' if @name == ''
+
+    true
   end
 end

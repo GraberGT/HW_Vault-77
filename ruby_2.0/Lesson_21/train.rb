@@ -1,66 +1,102 @@
-require_relative 'route'
-
 class Train
-  attr_reader :number, :type
+  include Manufacturer
+  include InstanceCounter
+  include Valid
 
-  @@trains = {}  
+  attr_reader :carriages, :speed, :route, :current_station, :type_of
+  attr_accessor :number
 
-  def self.all
-    @@trains
+  TRAIN_NUMBER_FORMAT = /^(\d{3}|\w{3}-?)(\d{2}|\w{2})$/i.freeze
+
+  @trains = {}
+
+  class << self
+    attr_accessor :trains
+
+    def find(train_number)
+      @trains[train_number]
+    end
   end
 
   def initialize(number)
-    @number = number
-    @quantity_wagon = []
-    @@trains[number] = self
+    @number = number.to_s
+    @speed = 0
+    @carriages = []
+    self.class.trains[number] = self
+    register_instance
+    validate!
   end
 
-  def self.find(number)
-    all[number]
+  def all_carriages
+    @carriages.each_with_index { |carriage, index| yield(carriage, index) }
   end
 
-  
-
-  def station_route(route)
-    @route = route
-    @current_station = @route.stations.first
-    @current_station.join_train(self)
+  def up_speed(new_speed)
+    @speed += new_speed if new_speed >= 0
   end
 
-  def add_wagon(wagon)
-    return "Error" if wagon.type != @type
-    @amount_wagon << wagon
+  def low_speed(new_speed)
+    (@speed -= new_speed) unless new_speed > @speed
   end
 
-  def current_station
-    @current_station
+  def stop
+    @speed = 0
   end
 
-  def next_station
-    @route.stations[current_station_index + 1]
+  def add_route(route_new)
+    @route = route_new
+    @current_station_index = 0
+    change_current_station
   end
 
-  def previous_station
-     @route.stations[current_station_index - 1]
+  def add_carriage(carriage)
+    stop
+    @carriages << carriage if type_of == carriage.type_of
   end
 
-  def go_tonext_station
-    return if @current_station == @route.stations.last
-    move(next_station)
+  def remove_carriage
+    stop
+    @carriages.pop
   end
 
-  def go_toback_station
-    return if @current_station == @route.stations.first
-    move(previous_station)
+  def move_next_station
+    return if @current_station == @route.end_station
+
+    @current_station_index += 1
+    change_current_station
   end
 
-  def current_station_index
-    @route.stations.index(@current_station)
+  def move_previous_station
+    return if @current_station == @route.start_station
+
+    @current_station_index -= 1
+    change_current_station
   end
 
-    def move(station)
-    return unless @current_station && @route
-    @current_station.send_train(self)
-    @current_station = station
-    @current_station.join_train(self)
+  def show_next_station
+    return if @current_station == @route.end_station
+
+    @route.stations[@current_station_index + 1]
   end
+
+  def show_previous_station
+    return if @current_station == @route.start_station
+
+    @route.stations[@current_station_index - 1]
+  end
+
+  private
+
+  def change_current_station
+    @current_station.send_train(self) if @current_station
+    @current_station = @route.stations[@current_station_index]
+    @current_station.take_train(self)
+  end
+
+  def validate!
+    raise 'Номер не должнен быть пустым' if @number == ''
+    raise 'Неверный формат номера' if @number !~ TRAIN_NUMBER_FORMAT
+
+    true
+  end
+end

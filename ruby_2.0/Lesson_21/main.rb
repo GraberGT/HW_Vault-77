@@ -1,197 +1,259 @@
-require_relative 'station'
-require_relative 'route'
-require_relative 'passanger_train'
-require_relative 'cargo_train'
-require_relative 'passanger_wagon'
-require_relative 'cargo_wagon'
-require_relative 'Validatable'
-require_relative 'InstanceCounter'
+require_relative 'Manufacturer.rb'
+require_relative 'InstanceCounter.rb'
+require_relative 'Valid.rb'
+require_relative 'train.rb'
+require_relative 'route.rb'
+require_relative 'station.rb'
+require_relative 'cargo_train.rb'
+require_relative 'carriage_cargo.rb'
+require_relative 'passenger_train.rb'
+require_relative 'carriage_passenger.rb'
 
-class App
+puts 'Интерфейс управление железнодородной станцией'
+
+class Main
+  attr_reader :stations, :routes, :trains
+
+  TRAIN_TYPE = { 1 => :passenger, 2 => :cargo }.freeze
+
   def initialize
     @stations = []
-    @route = []
+    @routes = []
     @trains = []
-    @wagons = []
   end
 
-  def start
-    loop do
-      choice_interface
-      @choice = gets.chomp.to_i
-    break if @choice == 0
-      process_choice
+  def actions
+    actions = [
+      '1. Создать станцию', '2. Создать поезд', '3. Создать маршрут',
+      '4. Редактирование маршрута', '5. Выбрать маршрут для поезда',
+      '6. Добавить вагон', '7. Отцепить вагон', '8. Переместить поезд по маршруту',
+      '9. Список станций и поездов на них', '0. Выход'
+    ]
+    actions.each { |action| puts action }
   end
 
-  def choice_interface
-    puts "Enter 1 create station"
-    puts "Enter 2 create route"
-    puts "Enter 3 add station"
-    puts "Enter 4 delete station"
-    puts "Enter 5 create train"
-    puts "Enter 6 create wagon"
-    puts "Enter 7 accept wagon"
-    puts "Enter 8 delete wagon"
-    puts "Enter 9 assign route"
-    puts "Enter 10 send train to the next station"
-    puts "Enter 11 send train to the previous station"
-    puts "Enter 12 show list of stations"
-    puts "Enter 13 show list of station's trains"
-    puts "Enter 0 exit "
+  def exec_actions(action)
+    options = {
+      0 => :exit, 1 => :station_create, 2 => :train_create, 3 => :route_create,
+      4 => :route_edit, 5 => :route_set_train, 6 => :carriage_add,
+      7 => :carriage_remove, 8 => :train_move, 9 => :list_stations_trains
+    }
+    system 'clear'
+    call_action(options[action])
   end
 
-  def process_choice
-    case choice
-    when 1
-     create_station
-    when 2
-     create_route
-    when 3
-      add_station
-    when 4
-      delete_station
-    when 5
-     create_train
-    when 6
-     create_wagon
-    when 7
-     accept_wagon
-    when 8
-     remove_wagon
-    when 9
-     route_to_train
-    when 10
-     go_forward
-    when 11
-     go_back
-    when 12
-     list_stations(@message)
-    when 13
-     station_trains
+  private
+
+  def call_action(method)
+    send(method)
+  rescue RuntimeError => e
+    puts e.inspect
+  end
+
+  def station_create
+    print 'Введите имя станции: '
+    station_name = gets.chomp
+    stations << Station.new(station_name)
+    puts "Создана станция с именем: #{station_name}"
+  end
+
+  def train_create
+    puts 'Выберите тип поезда: 1 - Пассажирский; 2 - Грузовой '
+    type = gets.to_i
+    raise 'Неверный тип поезда' unless TRAIN_TYPE[type]
+
+    puts 'Введите номер поезда: '
+    train_number = gets.chomp
+    trains << Object.const_get(TRAIN_TYPE[type].to_s.capitalize + 'Train').new(train_number)
+    puts "Создан поезд с номером: #{train_number}"
+  end
+
+  def route_create
+    raise 'Создайте сначала две станции' if stations.size < 2
+
+    puts 'Выберите начальную станцию: '
+    stations.each_with_index { |station, index| puts "#{index}: #{station.name}" }
+    start_station = stations[gets.to_i]
+    raise 'Неверно выбрана станция' unless start_station
+
+    puts 'Выберите конечную станцию: '
+    remaining_stations = stations.reject { |station| station == start_station }
+    remaining_stations.each_with_index { |station, index| puts "#{index}: #{station.name}" }
+    end_station = remaining_stations[gets.to_i]
+    raise 'Неверно выбрана станция' unless end_station
+
+    routes << Route.new(start_station, end_station)
+  end
+
+  def route_edit
+    raise 'Нет маршрутов для просмотра' if routes.empty?
+
+    puts 'Выберите маршрут для редактирования: '
+    choose_route
+    @route_user = gets.to_i
+    raise 'Неверно выбран маршрут' unless routes[@route_user]
+
+    puts '1 - Добавить станцию; 2 - Удалить станцию'
+    user_choice = gets.to_i
+
+    if user_choice == 1
+      raise 'Нет промежуточных станций для добавления' if stations.size < 3
+
+      route_edit_stations(1)
+    elsif user_choice == 2
+      raise 'Нет промежуточных станций для удаления' if routes[@route_user].stations.size < 3
+
+      route_edit_stations(2)
+    else
+      puts 'Неверный выбор'
     end
   end
 
-  def create_station
-    p "Enter Name Station"
-    name = Station.new(gets.chomp.to_s)
-    @stations << name
+  def route_set_train
+    raise 'Нет поездов для выбора' if trains.empty?
+
+    puts 'Выберите поезд,чтобы назначить маршрут: '
+    choose_train
+    train = trains[gets.to_i]
+    raise 'Не выбран поезд' unless train
+
+    puts 'Выберите маршрут для поезда: '
+    raise 'Нет маршрутов для просмотра' if routes.empty?
+
+    choose_route
+    route = routes[gets.to_i]
+    raise 'Не выбран маршрут' unless route
+
+    train.add_route(route)
   end
 
-  def create_station
-    puts "Enter station name"
-    name = gets.chomp
-   
-    station = Station.new(name)
-    @stations << station
+  def carriage_add
+    raise 'Нет поездов для выбора' if trains.empty?
+
+    puts 'Выберите поезд,чтобы добавить вагон: '
+    choose_train
+    train = trains[gets.to_i]
+    raise 'Не выбран поезд' unless train
+
+    if train.type_of == :passenger
+      puts 'Задайте количество мест в вагон: '
+      seats = gets.to_i
+      carriage = CarriagePassenger.new(seats)
+      puts 'Занять место в вагоне?(y/n)'
+      answer = gets.chomp.downcase
+      if answer == 'y'
+        carriage.engadged_seat && train.add_carriage(carriage)
+      else
+        train.add_carriage(carriage)
+      end
+    elsif train.type_of == :cargo
+      puts 'Задайте общий объем вагона: '
+      volume = gets.to_i
+      carriage = CargoCarriage.new(volume)
+      puts 'Сколько хотите занять объема для груза: '
+      volume_reserved = gets.to_i
+      carriage.engadged_volume(volume_reserved)
+      train.add_carriage(carriage)
+    end
+    puts 'Вагон добавлен'
   end
 
-  def stations
-    @stations
+  def carriage_remove
+    raise 'Нет поездов для выбора' if trains.empty?
+
+    puts 'Выберите поезд,чтобы удалить вагон: '
+    choose_train
+    train = trains[gets.to_i]
+    raise 'Не выбран поезд' unless train
+
+    train.remove_carriage
+    puts 'Вагон удален'
   end
 
-  def create_train
-    puts "Enter train number"
-    number = gets.chomp.to_i
+  def train_move
+    raise'Нет поездов для выбора' if trains.empty?
 
-    puts "Passenger or cargo"
-    train_type = gets.chomp.to_s
-    train_type == 'passenger'? create_passenger_train(number) : create_cargo_train(number)
+    puts 'Выберите поезд для перемещения: '
+    choose_train
+    train = trains[gets.to_i]
+    raise 'Не выбран поезд' unless train
+    raise 'Нет маршрутов для просмотра' if routes.empty?
+
+    puts "Поезд на станции: #{train.current_station.name}"
+    puts 'Выберите куда поедет поезд: '
+    puts '1: Вперед; 2: Назад'
+    move = gets.to_i
+
+    if move == 1
+      train.move_next_station
+      puts "Поезд на станции: #{train.current_station.name}"
+    elsif move == 2
+      train.move_previous_station
+      puts "Поезд на станции: #{train.current_station.name}"
+    else
+      puts 'Неверный выбор'
+    end
   end
 
-  def create_passenger_train(number)
-    @trains << PassengerTrain.new(number)
+  def list_stations_trains
+    raise 'Нет станций для просмотра' if stations.empty?
+
+    puts 'Выберите станцию для просмотра: '
+    stations.each_with_index do |station, index|
+      puts "#{index}: #{station.name}"
+    end
+    station = stations[gets.to_i]
+    raise 'Не выбрана станция' unless station
+
+    station.all_trains do |train|
+      puts "№: #{train.number}, тип: #{train.type_of}, вагонов: #{train.carriages.size}"
+      show_carriages(train)
+    end
   end
 
-  def create_passenger_wagon
-    puts "How many seats"
-    seats_quantity = gets.chomp.to_i
-    @wagons << PassengerWagon.new(seats_quantity)
-  end
-  
-  def create_cargo_train(number)
-    @trains << CargoTrain.new(number)
-  end
+  def route_edit_stations(choose)
+    stations_exclude = [routes[@route_user].stations.first, routes[@route_user].stations.last]
+    middle_stations = stations - stations_exclude
+    middle_stations.each_with_index { |station, index| puts "#{index}: #{station.name}" }
+    user_station = middle_stations[gets.to_i]
+    raise 'Неверно выбрана станция' unless user_station
 
-  def create_cargo_wagon
-    puts "How many volume"
-    volume = gets.chomp.to_f
-    @wagons << CargoWagon.new(volume)
+    if choose == 1
+      routes[@route_user].add_station(user_station) unless routes[@route_user].stations.include?(user_station)
+    elsif choose == 2
+      routes[@route_user].remove_station(user_station) if routes[@route_user].stations.include?(user_station)
+    end
   end
 
-  def create_wagon
-    puts "Passenger or cargo"
-    type = gets.chomp.to_s
-    return puts "Provide parameters" if type.nil?
-    type == "cargo"?  create_cargo_wagon : create_passenger_wagon
+  def choose_route
+    routes.each_with_index do |route, index|
+      puts "#{index}:#{route.stations.first.name} -#{route.stations.last.name}"
+    end
   end
 
-  def select_train
-    puts "Enter number train"
-    @trains.each.with_index(1){ |train, index| puts "#{index}. #{train.class}"}
-    puts "You need to create train" if @trains.empty?
-    @train = @trains[gets.chomp.to_i - 1]
+  def choose_train
+    trains.each_with_index do |train, index|
+      puts "#{index}: #{train.number}"
+    end
   end
 
-  def select_wagon
-    return puts "You need to create wagon"  if @wagons.empty?
-    puts "Enter number wagon"
-    @wagons.each.with_index(1){ |wagon,index| puts "#{index}.#{wagon.class}"}
-    @wagon = @wagons[gets.chomp.to_i - 1]
+  def show_carriages(train)
+    train.all_carriages do |carriage, index|
+      print "№: #{index}, тип: #{carriage.type_of}, "
+      if train.type_of == :passenger
+        print "свободных мест: #{carriage.free_seats},
+                занятых: #{carriage.seats_busy} \n"
+      elsif train.type_of == :cargo
+        print "свободный объем: #{carriage.free_volume},
+              занято: #{carriage.volume_busy} \n"
+      end
+    end
   end
+end
 
-  def select_route
-    return puts "You need to create route"  if @routes.empty?
-    puts "Enter number route"
-    @routes.each.with_index(1){ |route, index| puts "#{index}. #{route.name}"}
-    @route = @routes[gets.chomp.to_i - 1]
-  end
-
-  def accept_wagon
-    select_train
-    select_wagon
-    @train.add_wagon(@wagon)
-  end
-
-  def remove_wagon
-    select_train
-    puts "Number of wagon to remove"
-    @train.wagons.each.with_index(1){ |wagon, index| puts "#{index}. #{wagon.class}"}
-    wagon = @train.wagons[gets.chomp.to_i - 1]
-    @train.delete_wagon(wagon)
-  end
-
-  def route_to_train
-    select_train
-    select_route
-
-    @train.take_route(@route)
-  end
-
-  def go_forward
-    select_train
-    return puts "You need to assign route" if @train.route == nil
-    @train.move_forward
-  end
-
-  def go_back
-    select_train
-    return puts "You need to assign route" if @train.route == nil
-    @train.move_back
-  end
-
-  def list_stations(message)
-    return puts "You need create stations"  if @stations.empty?
-    @message = "List stations"
-    puts message
-   
-    @stations.each.with_index(1) { |station, index| puts "#{index}. #{station.name}"}
-    @station = @stations[gets.chomp.to_i - 1]
-  end
-
-  def station_trains
-    list_stations
-    return puts "No trains"  if @station.trains.empty?
-    @station.trains.each.with_index(1) { |train, index| puts "#{index}. #{train.class}"}
-  end
-
-App.new.start
+start = Main.new
+loop do
+  start.actions
+  user_choice = gets.to_i
+  start.exec_actions(user_choice)
+end
