@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Train
   include Manufacturer
   include InstanceCounter
@@ -88,7 +90,7 @@ class Train
   private
 
   def change_current_station
-    @current_station.send_train(self) if @current_station
+    @current_station&.send_train(self)
     @current_station = @route.stations[@current_station_index]
     @current_station.take_train(self)
   end

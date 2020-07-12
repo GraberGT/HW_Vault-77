@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'Manufacturer.rb'
 require_relative 'InstanceCounter.rb'
 require_relative 'Valid.rb'
@@ -171,7 +173,7 @@ class Main
   end
 
   def train_move
-    raise'Нет поездов для выбора' if trains.empty?
+    raise 'Нет поездов для выбора' if trains.empty?
 
     puts 'Выберите поезд для перемещения: '
     choose_train

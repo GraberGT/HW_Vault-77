@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
- class PassengerTrain < Train
+class PassengerTrain < Train
   @trains = {}
 
   def initialize(number)

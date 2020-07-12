@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CargoCarriage
   include Manufacturer
   include Valid
