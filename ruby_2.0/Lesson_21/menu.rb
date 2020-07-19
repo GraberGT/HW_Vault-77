@@ -13,10 +13,10 @@ require_relative 'route.rb'
 @created_routes = []
 
 def test
-  novo = Station.new('novo')
-  soko = Station.new('soko')
+  novo = Station.new('alam')
+  soko = Station.new('asta')
 
-  line1 = Route.new(novo, soko, 'line1')
+  line1 = Route.new(alam, asta, 'line1')
 
   qwe1 = PassengerTrain.new('qwe1', '123-12')
   qwe2 = CargoTrain.new('qwe2', '123-13')
