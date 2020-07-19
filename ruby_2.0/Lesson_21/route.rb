@@ -34,3 +34,9 @@ class Route
     raise 'Length route name < 3' if route_name.length < 3
   end
 end
+
+# train_lambda = lambda{ |train| p "#{train.number} => #{train}" }
+# my_proc = Proc.new{ |train| p "#{train.number} => #{train}" }
+# #a.block_test("STRING", &my_proc)
+# a.block_test(&my_proc)
+# #a.block_test { |train| p "astaala" }
