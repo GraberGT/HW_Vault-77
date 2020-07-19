@@ -1,50 +1,58 @@
 # frozen_string_literal: true
 
+require_relative 'instance_counter.rb'
+require_relative 'validation.rb'
+
 class Station
   include InstanceCounter
-  include Valid
+  include Validation
 
-  attr_reader :name, :trains
+  @@stations = []
 
-  @stations = []
+  attr_accessor :trains, :name_station
 
-  class << self
-    attr_reader :stations
-
-    def all
-      @stations
-    end
-  end
-
-  def initialize(name)
-    @name = name
-    validate!
+  def initialize(name_station)
+    @name_station = name_station
     @trains = []
-    self.class.stations << self
+    validate!
     register_instance
+    @@stations << self
   end
 
-  def all_trains
-    @trains.each { |train| yield train }
-  end
-
-  def take_train(train)
-    @trains << train
-  end
-
-  def trains_type(type)
-    @trains.select { |train| train.type_of if train.type_of == type }
-  end
-
-  def send_train(train)
+  def remove_train(train)
     @trains.delete(train)
   end
 
-  private
+  def train_arrives(train)
+    @trains.push(train)
+  end
+
+  def trains_type
+    cargo_trains = @trains.count { |train| train.type == :cargo }
+    passenger_trains = @trains.count { |train| train.type == :passenger }
+    "cargo: #{cargo_trains}, passenger: #{passenger_trains}"
+  end
+
+  def self.all
+    @@stations
+  end
+
+  def each_train
+    @trains.each do |train|
+      yield train if block_given?
+    end
+  end
+
+  def valid?
+    validate!
+    true
+  rescue false
+  end
+
+  protected
 
   def validate!
-    raise 'Имя не может быть пустым' if @name == ''
-
-    true
+    raise 'Name is nil' if name_station.nil?
+    raise 'Length < 3' if name_station.length < 3
   end
 end

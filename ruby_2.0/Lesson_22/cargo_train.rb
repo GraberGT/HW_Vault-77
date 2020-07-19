@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class CargoTrain < Train
-  @trains = {}
+  def add_wagon(wagon)
+    wagons.push(wagon) if (wagon.is_a? CargoWagon) && @speed.zero?
+  end
 
-  def initialize(number)
-    @type_of = :cargo
-    super
+  def wagon_decrease(wagon)
+    wagons.delete(wagon) if (wagon.is_a? CargoWagon) && @speed.zero?
   end
 end

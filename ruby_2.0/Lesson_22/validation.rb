@@ -24,7 +24,6 @@ module Validation
   module InstanceMethods
     def validate!
       self.class.args.each do |k, v|
-        raise 'Type Error' if k.class != v[1] && v[0] == 'type'
         raise 'It is nil' if k.to_s == '' && v[0] == 'presence'
         raise 'Format Error' if k != v[1] && v[0] == 'format'
       end
