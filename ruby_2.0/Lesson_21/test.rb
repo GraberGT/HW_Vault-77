@@ -35,3 +35,12 @@ list_carriage(train2)
 train1.add_carriage(carriage2)
 train1.add_carriage(carriage4)
 list_carriage(train1)
+
+route1 = Route.new(ala, ast)
+route2 = Route.new(la, sa)
+
+train_lambda = ->(train) { p "#{train.number} => #{train}" }
+my_proc = proc { |train| p "#{train.number} => #{train}" }
+a.block_test('STRING', &my_proc)
+a.block_test(&my_proc)
+a.block_test { |_train| p 'bad' }

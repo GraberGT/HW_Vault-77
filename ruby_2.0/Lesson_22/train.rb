@@ -8,8 +8,7 @@ class Train
   attr_reader :carriages, :speed, :route, :current_station, :type_of
   attr_accessor :number
 
-  TRAIN_NUMBER_FORMAT = /^(\d{3}|\w{3}-?)(\d{2}|\w{2})$/i.freeze #111-22
-
+  TRAIN_NUMBER_FORMAT = /^(\d{3}|\w{3}-?)(\d{2}|\w{2})$/i.freeze # 111-22
 
   @trains = {}
 

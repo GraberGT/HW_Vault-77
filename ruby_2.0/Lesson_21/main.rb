@@ -57,6 +57,8 @@ class Main
     station_name = gets.chomp
     stations << Station.new(station_name)
     puts "Создана станция с именем: #{station_name}"
+  rescue RuntimeError => e
+    puts e.message
   end
 
   def train_create
@@ -170,6 +172,8 @@ class Main
 
     train.remove_carriage
     puts 'Вагон удален'
+  rescue RuntimeError => e
+    puts e.message
   end
 
   def train_move
@@ -211,6 +215,8 @@ class Main
       puts "№: #{train.number}, тип: #{train.type_of}, вагонов: #{train.carriages.size}"
       show_carriages(train)
     end
+  rescue RuntimeError => e
+    puts e.message
   end
 
   def route_edit_stations(choose)
@@ -248,6 +254,8 @@ class Main
       elsif train.type_of == :cargo
         print "свободный объем: #{carriage.free_volume},
               занято: #{carriage.volume_busy} \n"
+            rescue RuntimeError => e
+              puts e.message
       end
     end
   end
