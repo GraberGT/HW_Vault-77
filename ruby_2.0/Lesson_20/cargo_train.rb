@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 class CargoTrain < Train
-  attr_reader :type
-  def type
-    @type = :cargo
+  def add_wagon(wagon)
+    wagons.push(wagon) if (wagon.is_a? CargoWagon) && @speed.zero?
   end
 
-  def add_carriage(carriage)
-    super if carriage.type == :cargo
+  def wagon_decrease(wagon)
+    wagons.delete(wagon) if (wagon.is_a? CargoWagon) && @speed.zero?
   end
 end

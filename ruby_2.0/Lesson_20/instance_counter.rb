@@ -1,21 +1,28 @@
 # frozen_string_literal: true
 
 module InstanceCounter
+  @@register = 0
+
   def self.included(base)
-    base.extend ClassMethods
-    base.send :include, InstanceMethods
+    base.extend(ClassMethod)
+    base.include(InstancesMethod)
   end
 
-  module ClassMethods
-    attr_accessor :instances
+  module ClassMethod
+    attr_writer :instances
+
+    def instances
+      @instances ||= 0
+    end
+
+    def count
+      self.instances += 1
+    end
   end
 
-  module InstanceMethods
-    private
-
+  module InstancesMethod
     def register_instance
-      self.class.instances ||= 0
-      self.class.instances += 1
+      self.class.count
     end
   end
 end

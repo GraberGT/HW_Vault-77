@@ -5,65 +5,52 @@ require_relative 'instance_counter.rb'
 class Station
   include InstanceCounter
 
-  EMPTY_NAME_ERROR = 'Station name can not be empty!'
-  TRAINS_ERROR = 'There are no trains at this station!'
-  DUPLICATE_ERROR = 'This station already exist!'
-
-  attr_reader :name, :trains
-
   @@stations = []
+
+  attr_accessor :trains, :name_station
+
+  def initialize(name_station)
+    @name_station = name_station
+    @trains = []
+    validate!
+    register_instance
+    @@stations << self
+  end
+
+  def remove_train(train)
+    @trains.delete(train)
+  end
+
+  def train_arrives(train)
+    @trains.push(train)
+  end
+
+  def trains_type
+    cargo_trains = @trains.count { |train| train.type == :cargo }
+    passenger_trains = @trains.count { |train| train.type == :passenger }
+    "cargo: #{cargo_trains}, passenger: #{passenger_trains}"
+  end
 
   def self.all
     @@stations
   end
 
-  def initialize(name)
-    @name = name
-    @trains = []
-    register_instance
-    validate!
-    @@stations << self
-    register_instance
-  end
-
-  def add_train(train)
-    trains_on_station_validate!
-    trains << train unless trains.include?(train)
-  end
-
-  def send_train(train)
-    trains_on_station_validate!
-    trains.delete(train) if trains.include?(train)
-  end
-
-  def cargo_trains
-    trains_list(CargoTrain)
-  end
-
-  def passenger_trains
-    trains_list(PassengerTrain)
-  end
-
-  def trains_list(target)
-    trains_on_station_validate!
-    trains.select { |train| return train.number if train.class == target }
+  def each_train
+    @trains.each do |train|
+      yield train if block_given?
+    end
   end
 
   def valid?
     validate!
     true
-  rescue StandardError
-    false
+  rescue false
   end
 
-  private
+  protected
 
   def validate!
-    raise EMPTY_NAME_ERROR if name.nil? || name.length.zero?
-    raise DUPLICATE_ERROR if @@stations.any? { |station| station.name == name }
-  end
-
-  def trains_on_station_validate!
-    raise TRAINS_ERROR if trains.empty?
+    raise 'Name is nil' if name_station.nil?
+    raise 'Length < 3' if name_station.length < 3
   end
 end
