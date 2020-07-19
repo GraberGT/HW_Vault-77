@@ -1,35 +1,36 @@
 # frozen_string_literal: true
 
+require_relative 'instance_counter.rb'
+
 class Route
   include InstanceCounter
-  include Valid
 
-  attr_reader :start_station, :end_station, :stations
+  attr_accessor :stations, :route_name
 
-  def initialize(start_station, end_station)
-    @stations = []
-    @start_station = start_station
-    @end_station = end_station
-    @stations << @start_station << @end_station
-    register_instance
+  def initialize(first_station, final_station, route_name)
+    @route_name = route_name
     validate!
-  rescue RuntimeError => e
-    puts e.message
+    @stations = [first_station, final_station]
+    register_instance
   end
 
-  def add_station(station)
+  def station_add(station)
     @stations.insert(-2, station)
   end
 
-  def remove_station(station)
-    @stations.delete(station) if station != (@start_station || @end_station)
+  def station_delete(station)
+    @stations.delete(station)
   end
 
-  private
+  def valid?
+    validate!
+    true
+  rescue false
+  end
+
+  protected
 
   def validate!
-    raise 'Начальная станция не может быть конечной' if @start_station == @end_station
-
-    true
+    raise 'Length route name < 3' if route_name.length < 3
   end
 end

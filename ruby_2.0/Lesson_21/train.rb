@@ -1,104 +1,81 @@
 # frozen_string_literal: true
 
+require_relative 'name_company.rb'
+require_relative 'instance_counter.rb'
+
 class Train
-  include Manufacturer
+  include NameCompany
   include InstanceCounter
-  include Valid
 
-  attr_reader :carriages, :speed, :route, :current_station, :type_of
-  attr_accessor :number
+  attr_reader :route, :speed, :wagon, :name_train, :station, :number
+  attr_accessor :wagons
 
-  TRAIN_NUMBER_FORMAT = /^(\d{3}|\w{3}-?)(\d{2}|\w{2})$/i.freeze # 111-22
+  @@trains = []
 
-  @trains = {}
+  def initialize(name_train, number)
+    @name_train = name_train
+    @speed = 0
+    @wagons = []
+    @name_company = 'company'
+    @number = number
+    validate!
+    register_instance
+    @@trains << self
+  end
 
-  class << self
-    attr_accessor :trains
+  TRAIN_NUMBER_FORMAT = /^[a-z0-9]{3}-*[a-z0-9]{2}$/i.freeze
 
-    def find(train_number)
-      @trains[train_number]
+  def speed_increase(value)
+    @speed += value if value.positive?
+  end
+
+  def speed_decrease(value)
+    @speed -= value
+    @speed = 0 if @speed.negative?
+  end
+
+  def set_route(route)
+    @route = route
+    @station = route.stations[0]
+    route.stations[0].train_arrives(self)
+  end
+
+  def station_next
+    @station = @route.stations[@route.stations.index(@station) + 1] if @station != @route.stations.last
+  end
+
+  def station_prev
+    @station = @route.stations[@route.stations.index(@station) - 1] if @route.stations.index(@station) != 0
+  end
+
+  def station_return
+    "#{@route.stations[@route.stations.index(@station) - 1].name_station},
+#{@station.name_station},
+#{@route.stations[@route.stations.index(@station) + 1].name_station}"
+  end
+
+  def each_wagon
+    @wagons.each do |wagon|
+      yield wagon if block_given?
     end
   end
 
-  def initialize(number)
-    @number = number.to_s
-    @speed = 0
-    @carriages = []
-    self.class.trains[number] = self
-    register_instance
+  def self.find(number)
+    @@trains.each do |train|
+      return train if train.number == number
+    end
+  end
+
+  def valid?
     validate!
+    true
+  rescue false
   end
 
-  def all_carriages
-    @carriages.each_with_index { |carriage, index| yield(carriage, index) }
-  end
-
-  def up_speed(new_speed)
-    @speed += new_speed if new_speed >= 0
-  end
-
-  def low_speed(new_speed)
-    (@speed -= new_speed) unless new_speed > @speed
-  end
-
-  def stop
-    @speed = 0
-  end
-
-  def add_route(route_new)
-    @route = route_new
-    @current_station_index = 0
-    change_current_station
-  end
-
-  def add_carriage(carriage)
-    stop
-    @carriages << carriage if type_of == carriage.type_of
-  end
-
-  def remove_carriage
-    stop
-    @carriages.pop
-  end
-
-  def move_next_station
-    return if @current_station == @route.end_station
-
-    @current_station_index += 1
-    change_current_station
-  end
-
-  def move_previous_station
-    return if @current_station == @route.start_station
-
-    @current_station_index -= 1
-    change_current_station
-  end
-
-  def show_next_station
-    return if @current_station == @route.end_station
-
-    @route.stations[@current_station_index + 1]
-  end
-
-  def show_previous_station
-    return if @current_station == @route.start_station
-
-    @route.stations[@current_station_index - 1]
-  end
-
-  private
-
-  def change_current_station
-    @current_station&.send_train(self)
-    @current_station = @route.stations[@current_station_index]
-    @current_station.take_train(self)
-  end
+  protected
 
   def validate!
-    raise 'Номер не должнен быть пустым' if @number == ''
-    raise 'Неверный формат номера' if @number !~ TRAIN_NUMBER_FORMAT
-
-    true
+    raise 'Length train name < 3' if name_train.length < 3
+    raise 'Invalid format train number' if number !~ TRAIN_NUMBER_FORMAT
   end
 end
