@@ -13,6 +13,8 @@ class Route
     @stations << @start_station << @end_station
     register_instance
     validate!
+  rescue RuntimeError => e
+    puts e.message
   end
 
   def add_station(station)
