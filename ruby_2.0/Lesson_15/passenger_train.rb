@@ -2,9 +2,9 @@
 
 require_relative 'station'
 require_relative 'train'
-require_relative 'passanger_wagon'
+require_relative 'passenger_wagon'
 
-class Passanger_train < Train
+class Passenger_train < Train
   attr_reader :number, :amount_wagon
 
   def initialize(number)
@@ -13,13 +13,13 @@ class Passanger_train < Train
   end
 
   def add_wagon(wagon)
-    return 'Error' if wagon.class != Passanger_Wagon
+    return 'Error' if wagon.class != Passenger_Wagon
 
     @amount_wagon << wagon
   end
 
   def delete_wagon(wagon)
-    return 'Error' if wagon.class != Passanger_Wagon
+    return 'Error' if wagon.class != Passenger_Wagon
 
     @wagons_amount.delete(wagon)
   end

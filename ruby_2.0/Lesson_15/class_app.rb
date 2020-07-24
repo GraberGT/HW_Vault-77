@@ -2,9 +2,9 @@
 
 require_relative 'station'
 require_relative 'route'
-require_relative 'passanger_train'
+require_relative 'passenger_train'
 require_relative 'cargo_train'
-require_relative 'passanger_wagon'
+require_relative 'passenger_wagon'
 require_relative 'cargo_wagon'
 
 class App
@@ -17,35 +17,35 @@ class App
 
   def start
     loop do
-      choice = choice_interface
-      break if choice == '0'
+      choise = choise_interface
+      break if choise == '0'
 
-      process_choice(choice)
+      process_choise(choise)
     end
   end
 
   def choise_interface
     puts '1. Enter Station'
-    puts '2. Enter Passanger Train'
+    puts '2. Enter Passenger Train'
     puts '3. Enter Cargo Train'
-    puts '4. Enter Passanger Wagon'
+    puts '4. Enter Passenger Wagon'
     puts '5. Enter Cargo Wagon'
     puts '6. Enter Route'
     puts '7. List Stations'
     puts '0. Exit'
-    choice = gets.chomp.to_s
+    choise = gets.chomp.to_s
   end
 
-  def process_choice(choice)
-    case choice
+  def process_choise(choise)
+    case choise
     when '1'
       create_station
     when '2'
-      create_passanger_train
+      create_passenger_train
     when '3'
       create_cargo_train
     when '4'
-      create_passanger_wagon
+      create_passenger_wagon
     when '5'
       create_cargo_wagon
     when '6'
@@ -73,31 +73,31 @@ class App
     p @stations
   end
 
-  def create_passanger_train
-    p 'Enter Passanger Train Number'
+  def create_passenger_train
+    p 'Enter Passenger Train Number'
     num = gets.chomp.to_s
-    tr = PassangerTrain.new(num)
+    tr = Passenger_train.new(num)
     @trains << tr
   end
 
   def create_cargo_train
     p 'Enter Cargo Train Number'
     num = gets.chomp.to_s
-    tr = CargoTrain.new(num)
+    tr = Cargo_train.new(num)
     @trains << tr
   end
 
-  def create_passanger_wagon
-    p 'Enter Passanger Seats'
+  def create_passenger_wagon
+    p 'Enter Passenger Seats'
     num = gets.chomp.to_s
-    wagon = PassangerWagon.new(num)
+    wagon = Passenger_wagon.new(num)
     @wagons << wagon
   end
 
   def create_cargo_wagon
     p 'Enter Cargo Volume'
     num = gets.chomp.to_s
-    wagon = CargoWagon.new(num)
+    wagon = Cargo_wagon.new(num)
     @wagons << wagon
   end
 end

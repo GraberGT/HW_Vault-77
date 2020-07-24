@@ -64,3 +64,4 @@ class Train
     @current_station = station
     @current_station.join_train(self)
   end
+end

@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 require_relative 'instance_counter.rb'
-require_relative 'validation.rb'
 
 class Station
   include InstanceCounter
-  include Validation
 
   @@stations = []
 
