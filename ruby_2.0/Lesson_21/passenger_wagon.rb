@@ -9,11 +9,12 @@ class Passenger_wagon
   include Manufacturer
   include Validator
 
-  attr_reader :take_seats, :pass_seats
+  attr_reader :take_seats, :pass_seats, :type
 
   def initialize(pass_seats)
     @pass_seats = pass_seats
     @take_seats = 0
+    @type = 'passenger'
     validate
   end
 

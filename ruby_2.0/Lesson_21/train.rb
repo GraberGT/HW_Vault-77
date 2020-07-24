@@ -73,5 +73,12 @@ class Train
     @current_station.send_train(self)
     @current_station = station
     @current_station.join_train(self)
-end
+  end
+
+  def list_wagons
+    return unless block_given?
+
+    wagons.each_with_index do |wagon, index|
+      yield(wagon, index)
+  end
 end

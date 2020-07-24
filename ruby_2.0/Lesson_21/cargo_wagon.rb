@@ -9,11 +9,12 @@ class Cargo_wagon
   include Manufacturer
   include Validator
 
-  attr_reader :volume, :load_volume
+  attr_reader :volume, :load_volume, :type
 
   def initialize(volume)
     @volume = volume
     @load_volume = 0
+    @type = 'cargo'
     validate
   end
 

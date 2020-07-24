@@ -34,6 +34,13 @@ class Station
     @trains.delete(train)
   end
 
+  def list_trains
+    return unless block_given?
+
+    trains.each do |train|
+      yield(train)
+  end
+
   def validate
     super(stations)
     super(name)
