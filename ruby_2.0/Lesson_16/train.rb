@@ -3,6 +3,9 @@
 require_relative 'route'
 
 class Train
+  include InstanceCounter
+  include Manufacturer
+
   attr_reader :number, :type
 
   @@trains = {}

@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'station'
 require_relative 'train'
-require_relative 'passenger_wagon'
+require_relative 'station'
+require_relative 'cargo_wagon'
 
-class Passenger_train < Train
+class Cargo_train < Train
+  include InstanceCounter
+  include Manufacturer
+
   attr_reader :number, :amount_wagon
 
   def initialize(number)
@@ -13,13 +16,13 @@ class Passenger_train < Train
   end
 
   def add_wagon(wagon)
-    return 'Error' if wagon.class != Passenger_wagon
+    return 'Error' if wagon.class != Cargo_wagon
 
     @amount_wagon << wagon
   end
 
   def delete_wagon(wagon)
-    return 'Error' if wagon.class != Passenger_wagon
+    return 'Error' if wagon.class != Cargo_wagon
 
     @wagons_amount.delete(wagon)
   end
