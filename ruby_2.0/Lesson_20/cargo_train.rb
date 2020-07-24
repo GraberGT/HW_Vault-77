@@ -10,6 +10,7 @@ require_relative 'Validator'
 class Cargo_train < Train
   include InstanceCounter
   include Manufacturer
+  include Validator
 
   attr_reader :number, :amount_wagon
 

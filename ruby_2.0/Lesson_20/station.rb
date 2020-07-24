@@ -5,6 +5,9 @@ require_relative 'cargo_train'
 require_relative 'Validator'
 
 class Station
+
+  include Validator
+  
   attr_reader :name
   attr_reader :trains
 

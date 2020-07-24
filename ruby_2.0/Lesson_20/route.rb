@@ -4,6 +4,8 @@ require_relative 'station'
 require_relative 'Validator'
 
 class Route
+  include Validator
+  
   attr_reader :stations
 
   @@routes = {}

@@ -8,6 +8,7 @@ require_relative 'Validator'
 class Train
   include InstanceCounter
   include Manufacturer
+  include Validator
 
   attr_reader :number, :type
 

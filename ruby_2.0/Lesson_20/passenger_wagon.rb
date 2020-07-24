@@ -7,6 +7,7 @@ require_relative 'Validator'
 class Passenger_wagon
   include InstanceCounter
   include Manufacturer
+  include Validator
 
   attr_reader :pass_seats
 
