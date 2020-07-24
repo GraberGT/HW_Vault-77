@@ -1,22 +1,17 @@
 # frozen_string_literal: true
 
-require_relative 'name_company.rb'
+require_relative 'Manufacturer'
+require_relative 'InstanceCounter'
+require_relative 'Validator'
 
-class CargoWagon
-  include NameCompany
+class Cargo_wagon
+  include InstanceCounter
+  include Manufacturer
 
-  attr_reader :number, :volume
+  attr_reader :volume
 
-  def initialize
-    @volume = 100
-    @number = rand(100)
-  end
-
-  def take_volume(cargo_volume)
-    @volume -= cargo_volume if @volume >= cargo_volume
-  end
-
-  def reserved_volume
-    100 - @volume
+  def initialize(volume)
+    @volume = volume
+    validate
   end
 end
