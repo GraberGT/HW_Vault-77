@@ -5,9 +5,8 @@ require_relative 'cargo_train'
 require_relative 'Validator'
 
 class Station
-
   include Validator
-  
+
   attr_reader :name
   attr_reader :trains
 
@@ -33,5 +32,10 @@ class Station
 
   def send_train(train)
     @trains.delete(train)
+  end
+
+  def validate
+    super(stations)
+    super(name)
   end
 end
