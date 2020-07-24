@@ -1,22 +1,27 @@
 # frozen_string_literal: true
 
-require_relative 'name_company.rb'
+require_relative 'Manufacturer'
+require_relative 'InstanceCounter'
+require_relative 'Validator'
 
-class PassengerWagon
-  include NameCompany
+class Passenger_wagon
+  include InstanceCounter
+  include Manufacturer
+  include Validator
 
-  attr_reader :seat, :number
+  attr_reader :take_seats, :pass_seats
 
-  def initialize
-    @seat = 100
-    @number = rand(100)
+  def initialize(pass_seats)
+    @pass_seats = pass_seats
+    @take_seats = 0
+    validate
   end
 
-  def take_seat
-    @seat -= 1 if @seat.positive?
+  def take_st
+    self.take_seats += 1 if take_seats < pass_seats
   end
 
-  def reserved_seat
-    100 - @seat
+  def vacant_seats
+    pass_seats - take_seats
   end
 end
