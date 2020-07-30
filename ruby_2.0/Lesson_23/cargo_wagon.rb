@@ -15,7 +15,6 @@ class Cargo_wagon
     @volume = volume
     @load_volume = 0
     @type = 'cargo'
-    validate
   end
 
   def load(volume)
