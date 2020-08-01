@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 RSpec.describe Train do
-  let!(:train) {Train.new(123)}
-  let!(:station1) {Station.new('ala')}
-  let!(:station2) {Station.new('ast')}
-  let!(:passenger_train) {Passenger_train.new(1234)}
-  let!(:cargo_train) {Cargo_train.new(12345)}
-  let!(:route) {Route.new('station1', 'station2')}
+  let!(:train) { Train.new(123) }
+  let!(:station1) { Station.new('ala') }
+  let!(:station2) { Station.new('ast') }
+  let!(:passenger_train) { Passenger_train.new(1234) }
+  let!(:cargo_train) { Cargo_train.new(12_345) }
+  let!(:route) { Route.new('station1', 'station2') }
 
   describe '#train number' do
     it 'create train number' do
@@ -37,7 +39,7 @@ RSpec.describe Train do
   end
 
   describe '#route' do
-    it 'create route'do
+    it 'create route' do
       expect(route.station_route('ala', 'ast')).to eq true
     end
   end
