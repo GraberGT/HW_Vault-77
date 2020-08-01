@@ -17,7 +17,6 @@ class Cargo_train < Train
   def initialize(number)
     super(number)
     @amount_wagon = []
-    validate
   end
 
   def add_wagon(wagon)

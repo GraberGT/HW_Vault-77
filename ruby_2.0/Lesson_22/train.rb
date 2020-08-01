@@ -4,11 +4,13 @@ require_relative 'Manufacturer'
 require_relative 'InstanceCounter'
 require_relative 'route'
 require_relative 'Validator'
+require_relative 'logs'
 
 class Train
   include InstanceCounter
   include Manufacturer
   include Validator
+  include Logable
 
   attr_reader :number, :type
 
@@ -22,7 +24,6 @@ class Train
     @number = number
     @quantity_wagon = []
     @@trains[number] = self
-    validate
   end
 
   def self.find(number)
@@ -80,5 +81,15 @@ class Train
 
     wagons.each_with_index do |wagon, index|
       yield(wagon, index)
-  end
+    end
+
+    def validate
+      super(number)
+    rescue AttributeSizeError, AttributePresentError => e
+      write_error(e.message)
+      self.valid = false
+    else
+      self.valid = true
+    end
+end
 end

@@ -15,7 +15,6 @@ class Passenger_wagon
     @pass_seats = pass_seats
     @take_seats = 0
     @type = 'passenger'
-    validate
   end
 
   def take_st

@@ -8,6 +8,6 @@ module Validator
   end
 
   def validate(attribute)
-    raise AttributeValidError unless valid?(attribute)
+    raise AttributeStandertError unless valid?(attribute)
   end
 end

@@ -3,9 +3,11 @@
 require_relative 'passenger_train'
 require_relative 'cargo_train'
 require_relative 'Validator'
+require_relative 'logs'
 
 class Station
   include Validator
+  include Logable
 
   attr_reader :name
   attr_reader :trains
@@ -15,7 +17,6 @@ class Station
     @stations = []
     @trains = []
     @stations << self
-    validate
   end
 
   class << self
@@ -39,10 +40,16 @@ class Station
 
     trains.each do |train|
       yield(train)
-  end
+    end
 
-  def validate
-    super(stations)
-    super(name)
-  end
+    def validate
+      super(stations)
+      super(name)
+    rescue AttributeSizeError, AttributePresentError => e
+      write_error(e.message)
+      self.valid = false
+    else
+      self.valid = true
+    end
+end
 end
