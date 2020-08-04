@@ -1,10 +1,12 @@
-require "net/http"
+# frozen_string_literal: true
+
+require 'net/http'
 
 class Request
   attr_reader :url
 
   def add_header(header_type, header_value)
-    @res[header_type] = header_value;
+    @res[header_type] = header_value
   end
 
   def initialize

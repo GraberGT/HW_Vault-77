@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 RSpec.describe Cargo_wagon do
-  let!(:wagon) {Cargo_wagon.new(1000)}
+  let!(:wagon) { Cargo_wagon.new(1000) }
 
   describe '#volume' do
     it 'volume' do
@@ -14,5 +16,4 @@ RSpec.describe Cargo_wagon do
       expect(wagon.free_volume).to eq 500
     end
   end
-
 end

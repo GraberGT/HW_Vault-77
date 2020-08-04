@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='UTF-8' />
+    <title>Railway app</title>
+    <style>
+      table, th, td {
+        border: 1px solid green;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  </head>
+  <body>
+    <h3>Create route</h3>
+    <form action='routes' method='post'>
+    <div>
+      <label for="first">First station:</label>
+      <select id="first" name="first">
+        <% @stations.each do |station| %>
+        <option value=<%= station %>><%= station %></option>
+        <% end %>
+      </select>
+    </div><br />
+
+    <div>
+      <label for="last">Last station:</label>
+      <select id="last" name="last">
+        <% @stations.each do |station| %>
+        <option value=<%= station %>><%= station %></option>
+        <% end %>
+      </select>
+    </div><br />
+
+    <input type='submit'>
+    </form>
+    <br>
+    <h3>Routes table</h3>
+
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>NAME</th>
+        <th>CREATED DATE</th>
+      </tr>
+      <% @routes_info.each do |route| %>
+      <tr>
+        <td><%= route['id'] %></td>
+        <td><%= route['name'] %></td>
+        <td><%= route['created_at'] %></td>
+      </tr>
+      <% end %>
+    </table>
+    <br /><br />
+    <a href='/'>Main</a>
+  </body>
+</html>

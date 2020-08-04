@@ -1,0 +1,2 @@
+{"id":"an6ip1o8","name":"ala","created_at":"2020-08-05 01:37:46 +0600"}
+{"id":"5d4jaxx9","name":"ast","created_at":"2020-08-05 01:38:12 +0600"}
