@@ -5,12 +5,12 @@ Telegram::Bot::Client.run(token) do |bot|
     case message.text
     when '/start'
       bot.api.sendMessage(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}")
-    when 'Time table'
-      bot.api.time_table
-    when 'Buy ticket'
-      bot.api.buy_ticket
-    when 'Buying tickets'
-      bot.api.tickets
+    when '/Time table'
+      bot.api.time_table(chat_id: message.chat.id, text: 'Time table')
+    when '/Buy ticket'
+      bot.api.buy_ticket(chat_id: message.chat.id, text: "Buy ticket")
+    when '/Buying tickets'
+      bot.api.tickets(chat_id: message.chat.id, text: "Buying tickets")
     end
   end
 end
