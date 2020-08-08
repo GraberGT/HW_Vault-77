@@ -8,11 +8,11 @@ Telegram::Bot::Client.run(token) do |bot|
     when '/start'
       bot.api.sendMessage(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}")
     when '/Time table'
-      bot.api.time_table(chat_id: message.chat.id, text: 'Time table')
+      bot.api.sendMessage(chat_id: message.chat.id, text: 'Time table')
     when '/Buy ticket'
-      bot.api.buy_ticket(chat_id: message.chat.id, text: "Buy ticket")
+      bot.api.sendMessage(chat_id: message.chat.id, text: "Buy ticket")
     when '/Buying tickets'
-      bot.api.tickets(chat_id: message.chat.id, text: "Buying tickets")
+      bot.api.sendMessage(chat_id: message.chat.id, text: "Buying tickets")
     end
   end
 end
@@ -25,13 +25,13 @@ end
 
 def buy_ticket
   puts 'Enter your name'
-  @name = gets.chomp.to_s
+  :name = gets.chomp.to_s
   puts 'Enter your sir name'
-  @sname = gets.chomp.to_s
+  :sname = gets.chomp.to_s
   puts "Enter your date of birth"
-  @dateb = gets.chomp.to_s
+  :dateb = gets.chomp.to_s
   puts 'Enter your passport number'
-  @numpas = gets.chomp.to_s
+  :numpas = gets.chomp.to_s
 end
 
 def tikcets

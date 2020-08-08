@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Station
-  include Mongoid::Documet
+  include Mongoid::Document
   field :name, type: String
   field :trains, type: Array, default: []
 
