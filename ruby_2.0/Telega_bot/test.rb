@@ -1,7 +1,7 @@
 require 'telegram/bot'
 require 'sinatra'
 require 'json'
-token = '1102820334:AAFcDB9e-6DbX2JS2LH9N-UWy__XseuuSeM'
+token = ''
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     case message.text
@@ -16,4 +16,7 @@ Telegram::Bot::Client.run(token) do |bot|
     end
   end
 end
+
+
+
 
