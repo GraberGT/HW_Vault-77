@@ -105,6 +105,4 @@ class Api < Sinatra::Base
       halt(404, { message: e }.to_json)
     end
   end
-
-
 end

@@ -3,7 +3,7 @@
 require 'sinatra/base'
 require 'sinatra/namespace'
 require 'json'
-require 'mongoid'
+require 'sinatra/activerecord'
 
 Dir['./Lesson_26/*.rb'].sort.each { |file| require file }
 Dir['./Lesson_26/*.rb'].sort.each { |file| require file }
