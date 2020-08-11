@@ -1,6 +1,6 @@
 class Api < Sinatra::Base
-  register Sinatra
-   #помню что v1, v2, v3 и т.д. так положено писать про версию апи
+  register Sinatra::Namespace
+  namespace '/api/v1' do #помню что v1, v2, v3 и т.д. так положено писать про версию апи
     before do
       content_type 'app/json'
     end

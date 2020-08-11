@@ -10,12 +10,7 @@ Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
       case message
       when Telegram::Bot::Types::CallbackQuery
-          case message.data
-          when 'touch'
-              bot.api.send_message(chat_id: message.from.id, text: "Don't touch me!")
-          when 'test'
-              bot.api.send_message(chat_id: message.from.id, text: "Don't test me!")
-          end
+          
       when Telegram::Bot::Types::Message
           case message.text
           when '/start'
@@ -24,7 +19,7 @@ Telegram::Bot::Client.run(token) do |bot|
               kb = [
                   Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Buy ticket', callback_data: 'Buy ticket'),
                   Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Timetable', callback_data: 'Timetable'),
-                  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Tickets', switch_inline_query: 'Tickets') 
+                  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Tickets', callback_data: 'Tickets') 
               ]
               markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: kb)
               bot.api.send_message(chat_id: message.chat.id, text: 'Make a choice', reply_markup: markup)
@@ -55,6 +50,7 @@ def process_input(message)
   else
     @bot.api.send_message(
       chat_id: message.chat.id,
+      text:text,
       reply_markup: @markup
       )
   end
@@ -103,7 +99,7 @@ def post_request(url, body = '')
   set_connection(uri)
 
   req = Net::HTTP::Post.new(uri)
-  req['Content-Type'] = 'application/json'
+  req['Content-Type'] = 'app/json'
   req.body = body.to_json
 
   parse_response(req)
@@ -118,5 +114,4 @@ end
 def set_connection(uri)
   @http = Net::HTTP.new(uri.host, uri.port)
   @http.use_ssl = true if uri.instance_of?(URI::HTTPS)
-end
 end
