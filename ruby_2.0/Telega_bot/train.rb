@@ -21,3 +21,4 @@ class Train
     station.accept(id.to_s) #tcp ruby
   end
 end
+

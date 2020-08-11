@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
 require 'sinatra/base'
-require 'sinatra/namespace'
-require 'json'
+require 'sinatra'
 require 'mongoid'
-
-Dir['./Telega_bot/*.rb'].sort.each { |file| require file }
-Dir['./Telega_bot/*.rb'].sort.each { |file| require file }
-
-require_relative 'routeappoint'
+require 'json'
+require 'sinatra/namespace'
 require_relative 'api'
 
+Dir['./Telega_bot/*.rb'].sort.each { |file| require file }
 
 Api.run!
+Mongoid.load! 'mongoid.config'
