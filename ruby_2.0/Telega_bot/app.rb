@@ -3,13 +3,13 @@
 require 'sinatra/base'
 require 'sinatra/namespace'
 require 'json'
-require 'sinatra/activerecord'
+require 'mongoid'
 
-Dir['./Lesson_26/*.rb'].sort.each { |file| require file }
-Dir['./Lesson_26/*.rb'].sort.each { |file| require file }
+Dir['./Telega_bot/*.rb'].sort.each { |file| require file }
+Dir['./Telega_bot/*.rb'].sort.each { |file| require file }
 
 require_relative 'routeappoint'
 require_relative 'api'
 
-Mongoid.load! 'mongoid.config'
+
 Api.run!

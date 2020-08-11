@@ -1,8 +1,7 @@
 require 'telegram/bot'
 require 'sinatra'
 require 'json'
-require 'activerecord'
-require 'pg'
+require 'mongoid'
 
 
 token = ''

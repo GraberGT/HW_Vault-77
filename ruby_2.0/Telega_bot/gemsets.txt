@@ -1,2 +1,2 @@
 sinatra
-activerecord
+mongoid
